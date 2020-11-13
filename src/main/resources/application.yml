@@ -1,0 +1,49 @@
+
+logging:
+  level:
+    root: info
+spring:
+  application:
+    name: closa-authenticator
+  profiles:
+  #active: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/closa_authenticator?autoReconnect=true&useSSL=false&serverTimezone=UTC
+    username: root
+    password: Martona78
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      auto-commit: false
+    open-in-view: true
+  jpa:
+    database: mysql
+    show-sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        id:
+          new_generator_mappings: true
+        connection:
+          provider_disables_autocommit: true
+        generate_statistics: false
+        dialect: org.hibernate.dialect.MySQL55Dialect
+        cache.use_second_level_cache: false
+        cache.use_query_cache: false
+  artemis:
+    port:
+  data:
+    cassandra:
+      port:
+management:
+  endpoint:
+    health:
+      show-details: always
+server:
+  port: 8686
+global:
+  trace:
+    local: false
+    statistics: true
+    audit: true
