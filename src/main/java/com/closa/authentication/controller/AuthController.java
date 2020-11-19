@@ -1,40 +1,23 @@
 package com.closa.authentication.controller;
 
-import com.closa.authentication.dao.UConRepository;
-import com.closa.authentication.dao.UUsrRepository;
-import com.closa.authentication.dto.JwtRequest;
-import com.closa.authentication.dto.JwtResponse;
-import com.closa.authentication.dto.UserDetailsiDTO;
-import com.closa.authentication.dto.UserDetailsoDTO;
+import com.closa.authentication.dto.*;
 import com.closa.authentication.services.AuthService;
 import com.closa.global.dto.GlobaloDTO;
 import com.closa.global.functions.JwtUtils;
-import com.closa.global.security.model.User;
 import com.closa.global.throwables.AppException;
 import com.closa.global.throwables.MessageCode;
-import com.closa.global.throwables.exceptions.AccessDeniedException;
-import com.closa.global.throwables.exceptions.ItemNotFoundException;
 import com.closa.global.throwables.exceptions.UserNotFoundException;
 import com.closa.global.trace.model.enums.EventsHandled;
 import com.closa.global.trace.service.EventService;
-import com.google.common.base.Functions;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.ServletException;
 import java.util.Arrays;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/auth")
@@ -66,7 +49,7 @@ public class AuthController {
         } catch (AppException e){
             oDto.setReturnCode(e.getMessageCode().getrCode());
             oDto.setReturnLabel(e.getMessageText());
-            oDto.setReturnMessages(Arrays.asList(ExceptionUtils.getRootCauseStackTrace(e)));
+            oDto.setReturnMessages(e.getMultiExceptions());
             eventService.insertEvent(iDto.getUserName(),EventsHandled.USER_DETAILS_DENIED);
         }
         catch (Exception e) {
@@ -98,12 +81,12 @@ public class AuthController {
         } catch (AppException e ){
             oDto.setReturnCode(e.getMessageCode().getrCode());
             oDto.setReturnLabel(e.getMessageText());
-            eventService.insertEvent(authenticationRequest.getUsername(), EventsHandled.LOGIN_FAILED);
+            eventService.insertEvent(authenticationRequest.getUsername(), EventsHandled.LOGIN_FAILED, oDto.toJson());
         } catch (Exception e) {
             oDto.setReturnCode(MessageCode.APP0099.getrCode());
             oDto.setReturnLabel(MessageCode.APP0099.getmMsg());
             oDto.setReturnMessages(Arrays.asList(ExceptionUtils.getRootCauseStackTrace(e)));
-            eventService.insertEvent(authenticationRequest.getUsername(), EventsHandled.LOGIN_FAILED);
+            eventService.insertEvent(authenticationRequest.getUsername(), EventsHandled.LOGIN_FAILED, oDto.toJson());
         }
             return oDto;
     }
@@ -127,6 +110,49 @@ public class AuthController {
             oDto.setReturnLabel(MessageCode.APP0099.getmMsg());
             oDto.setReturnMessages(Arrays.asList(ExceptionUtils.getRootCauseStackTrace(e)));
             eventService.insertEvent(iDto.getUserName(), EventsHandled.LOGOUT_FAILED);
+        }
+        return oDto;
+    }
+
+    @CrossOrigin
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserRegistryoDTO registerNewUser(@RequestBody UserRegisteriDTO iDto)
+            throws Exception {
+        UserRegistryoDTO oDto = new UserRegistryoDTO();
+        try {
+            oDto = authService.dealWithRegister(iDto);
+            oDto.setReturnCode(MessageCode.APP0000.getrCode());
+            oDto.setReturnLabel(MessageCode.APP0000.getmMsg());
+            eventService.insertEvent(iDto.getConnectionId(), EventsHandled.CREATED, oDto.toJson());
+        } catch (AppException e ){
+            oDto.setReturnCode(e.getMessageCode().getrCode());
+            oDto.setReturnLabel(e.getMessageText());
+            oDto.getReturnMessages().addAll(e.getMultiExceptions());
+            eventService.insertEvent(iDto.getConnectionId(), EventsHandled.CREATED_FAILED, oDto.toJson());
+        } catch (Exception e) {
+            oDto.setReturnCode(MessageCode.APP0099.getrCode());
+            oDto.setReturnLabel(MessageCode.APP0099.getmMsg());
+            oDto.setReturnMessages(Arrays.asList(ExceptionUtils.getRootCauseStackTrace(e)));
+            eventService.insertEvent(iDto.getConnectionId(), EventsHandled.CREATED_FAILED, oDto.toJson());
+        }
+        return oDto;
+    }
+
+    @CrossOrigin
+    @GetMapping(value = "/roles",produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserRolesoDTO getRoles() throws Exception {
+        UserRolesoDTO oDto = new UserRolesoDTO();
+        try {
+            oDto = authService.provideRoles();
+            oDto.setReturnCode(MessageCode.APP0000.getrCode());
+            oDto.setReturnLabel(MessageCode.APP0000.getmMsg());
+        } catch (AppException e ){
+            oDto.setReturnCode(e.getMessageCode().getrCode());
+            oDto.setReturnLabel(e.getMessageText());
+        } catch (Exception e) {
+            oDto.setReturnCode(MessageCode.APP0099.getrCode());
+            oDto.setReturnLabel(MessageCode.APP0099.getmMsg());
+            oDto.setReturnMessages(Arrays.asList(ExceptionUtils.getRootCauseStackTrace(e)));
         }
         return oDto;
     }
