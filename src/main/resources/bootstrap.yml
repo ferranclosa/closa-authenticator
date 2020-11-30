@@ -1,9 +1,9 @@
 spring:
   application:
-    name: authentication-server
+    name: authentication
   cloud:
     discovery:
-      service-id: authentication-server
+      service-id: authentication
       enabled: true
     config:
       uri: http://localhost:8071
