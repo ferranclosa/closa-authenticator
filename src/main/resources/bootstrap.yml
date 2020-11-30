@@ -7,3 +7,5 @@ spring:
       enabled: true
     config:
       uri: http://localhost:8071
+encrypt:
+  key: T81SMustBeLOn9F0rF0rY0uT09etB0redt01nf1n1t
