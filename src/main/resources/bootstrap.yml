@@ -5,3 +5,5 @@ spring:
     discovery:
       service-id: authentication-server
       enabled: true
+    config:
+      uri: http://localhost:8071
