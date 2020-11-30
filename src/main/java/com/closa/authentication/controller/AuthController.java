@@ -61,7 +61,7 @@ public class AuthController {
         return oDto;
     }
 
-    @CrossOrigin
+   // @CrossOrigin
     @PostMapping(value = "/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public JwtResponse generateAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
             throws Exception {
@@ -91,7 +91,7 @@ public class AuthController {
             return oDto;
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping(value = "/signout", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public GlobaloDTO dealWithSignout(@RequestBody UserDetailsiDTO iDto)
             throws Exception {
@@ -114,7 +114,7 @@ public class AuthController {
         return oDto;
     }
 
-    @CrossOrigin
+    //@CrossOrigin
     @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public UserRegistryoDTO registerNewUser(@RequestBody UserRegisteriDTO iDto)
             throws Exception {
@@ -138,7 +138,7 @@ public class AuthController {
         return oDto;
     }
 
-    @CrossOrigin
+   // @CrossOrigin
     @GetMapping(value = "/roles",produces = MediaType.APPLICATION_JSON_VALUE)
     public UserRolesoDTO getRoles() throws Exception {
         UserRolesoDTO oDto = new UserRolesoDTO();

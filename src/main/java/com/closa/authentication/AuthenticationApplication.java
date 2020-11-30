@@ -17,7 +17,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
         "com.closa.global.security.config",
         "com.closa.global.functions",
         "com.closa.global.throwables.handlers",
-        "com.closa.global.trace.*"})
+        "com.closa.global.trace.*", "com.closa.global.trace.service",
+        "com.closa.global.*"})
 
 @EnableJpaRepositories(basePackages = {
         "com.closa.global.status.dao",
