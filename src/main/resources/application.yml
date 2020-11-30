@@ -21,7 +21,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       auto-commit: false
-    open-in-view: true
+    #open-in-view: true
   jpa:
     database: mysql
     show-sql: true
@@ -38,12 +38,13 @@ spring:
         dialect: org.hibernate.dialect.MySQL55Dialect
         cache.use_second_level_cache: false
         cache.use_query_cache: false
-  artemis:
-    port:
-  data:
-    cassandra:
-      port:
+
 management:
+  endpoints:
+    web:
+      base-path: '/management'
+      exposure:
+        include: '*'
   endpoint:
     health:
       show-details: always
