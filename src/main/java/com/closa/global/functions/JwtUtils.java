@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@Service
+@Component
 public class JwtUtils {
 
     private String secret = "averylongstringplentyofnonsensewithmoresenselessauthorisationtocome";

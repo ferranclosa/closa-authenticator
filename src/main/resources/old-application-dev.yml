@@ -1,15 +1,23 @@
 
+eureka:
+  instance:
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    healthcheck:
+      enabled: true
+    registerWithEureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
 logging:
   level:
     root: info
+
 spring:
-  application:
-    name: closa-authenticator
-  profiles:
-  #active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/closa_authenticator?autoReconnect=true&useSSL=false&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/closa_authentication?createDatabaseIfNotExist=true&autoReconnect=true&useSSL=false&serverTimezone=UTC
     username: root
+    #password: '{cipher}33308334ebb1921304d858edf2a3ec6255ab9609fd9c67821d25ede42b1fd317'
     password: Martona78
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
@@ -31,12 +39,12 @@ spring:
         dialect: org.hibernate.dialect.MySQL55Dialect
         cache.use_second_level_cache: false
         cache.use_query_cache: false
-  artemis:
-    port:
-  data:
-    cassandra:
-      port:
 management:
+  endpoints:
+    web:
+      base-path: "/actuator"
+      exposure:
+        include: "*"
   endpoint:
     health:
       show-details: always
@@ -47,3 +55,5 @@ global:
     local: false
     statistics: true
     audit: true
+encrypt:
+  key: T81SMustBeLOn9F0rF0rY0uT09etB0redt01nf1n1t

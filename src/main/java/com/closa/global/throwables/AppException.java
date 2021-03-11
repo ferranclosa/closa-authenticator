@@ -3,7 +3,11 @@ package com.closa.global.throwables;
 import com.closa.global.dto.GlobaloDTO;
 import com.closa.global.model.EntityCommon;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.apache.catalina.LifecycleState;
 import org.springframework.http.HttpStatus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppException extends Exception implements EntityCommon {
     private MessageCode messageCode;
@@ -13,6 +17,15 @@ public class AppException extends Exception implements EntityCommon {
     private Exception e;
     private String theWhat;
     private HttpStatus httpStatus;
+    private List<String> multiExceptions = new ArrayList<>();
+
+    public List<String> getMultiExceptions() {
+        return multiExceptions;
+    }
+
+    public void setMultiExceptions(List<String> multiExceptions) {
+        this.multiExceptions = multiExceptions;
+    }
 
     public AppException(Exception e ){
         this.e = e;
@@ -36,6 +49,11 @@ public class AppException extends Exception implements EntityCommon {
         this.messageCode = messageCode;
         this.theWhat = theWhat;
         this.messageText = "{" + messageCode.getmCode() + "} " + messageCode.getmMsg() + " [" + theWhat + "]";
+    }
+    public AppException(MessageCode messageCode, List<String> theExceptions) {
+        this.messageCode = messageCode;
+        this.multiExceptions = theExceptions;
+        this.messageText = "{" + messageCode.getmCode() + "} " + messageCode.getmMsg() ;
     }
 
     public MessageCode getMessageCode() {

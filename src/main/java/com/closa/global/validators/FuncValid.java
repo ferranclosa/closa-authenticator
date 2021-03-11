@@ -1,39 +1,32 @@
 package com.closa.global.validators;
 
 import com.closa.global.throwables.exceptions.ValidationJsonException;
+import com.closa.global.validators.Validators;
 
 import javax.print.attribute.standard.Severity;
 import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class Validators {
-    private static Validator validator;
+public class FuncValid {
+    private FuncValid() {
 
-    public Validators() {
     }
 
-    public static Validator getValidator(){
-        if(validator == null ){
-            ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-            validator = factory.getValidator();
-        }
-        return validator;
-    }
     public static <I> void validate(I pInput) throws ValidationJsonException {
         List<String> listOfExceptions = new ArrayList<>();
         Set<ConstraintViolation<I>> constraintViolations = Validators.getValidator().validate(pInput, new Class[0]);
-        if (!constraintViolations.isEmpty()) {
-
-            for (ConstraintViolation one : constraintViolations) {
-                listOfExceptions.add("[ " + one.getPropertyPath().toString() + " ] : " + one.getMessage());
-            }
-            throw new ValidationJsonException(listOfExceptions);
+        /*if (!constraintViolations.isEmpty()) {
+            ConstraintViolation<I> constraint = (ConstraintViolation) constraintViolations.iterator().next();
+            throw new
+                    ValidationJsonException(constraint.getPropertyPath().toString(), "", constraint.getMessage(), Severity.ERROR);
         }
+        */
+        for (ConstraintViolation one : constraintViolations) {
+            listOfExceptions.add("[ " + one.getPropertyPath().toString() + " ] : " + one.getMessage());
+        }
+        throw new ValidationJsonException(listOfExceptions);
     }
 
     public static void validatateInputLists(List<?>... lists) throws ValidationJsonException {
@@ -47,4 +40,5 @@ public class Validators {
             }
         }
     }
+
 }

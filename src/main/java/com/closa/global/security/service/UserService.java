@@ -21,10 +21,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     UConRepository userRepository;
 
-    @lombok.SneakyThrows
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        Optional<com.closa.global.security.model.User> ouser = userRepository.provideUserDetails(userName);
+        Optional<com.closa.global.security.model.User> ouser = userRepository.provideUserDetails(userName.trim());
 
         User usr = null;
         if (ouser.isPresent()){
@@ -36,7 +35,7 @@ public class UserService implements UserDetailsService {
             }
             usr = new User(username, password, authorities);
         } else {
-            throw new UserNotActiveException(userName);
+            throw new UsernameNotFoundException(userName);
         }
         return usr;
     }

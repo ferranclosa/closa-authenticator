@@ -33,6 +33,10 @@ public class UserAddress {
         this.userAddress = address.toCharArray();
         this.userMainEmail= userMail;
     }
-
+    public UserAddress(String userMail,  UserUser user) {
+        this.userIsMainAddress = true;
+        this.userUser = user;
+        this.userMainEmail= userMail;
+    }
 
 }
