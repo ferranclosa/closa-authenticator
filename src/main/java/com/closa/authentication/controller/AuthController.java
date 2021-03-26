@@ -22,7 +22,7 @@ import java.util.Arrays;
 
 @RestController
 //@RequestMapping(path = "/auth")
-@CrossOrigin(origins = "http://localhost:3000")
+
 public class AuthController {
 
     @Autowired
@@ -64,7 +64,7 @@ public class AuthController {
         return oDto;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     @PostMapping(value = "/auth/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public JwtResponse generateAuthenticationToken(@RequestBody JwtRequest authenticationRequest)
             throws Exception {
@@ -94,7 +94,7 @@ public class AuthController {
             return oDto;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     @PostMapping(value = "/auth/signout", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public GlobaloDTO dealWithSignout(@RequestBody UserDetailsiDTO iDto)
             throws Exception {
@@ -117,7 +117,7 @@ public class AuthController {
         return oDto;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     @PostMapping(value = "/auth/register", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public UserRegistryoDTO registerNewUser(@RequestBody UserRegisteriDTO iDto)
             throws Exception {
@@ -141,7 +141,7 @@ public class AuthController {
         return oDto;
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
+    @CrossOrigin
     @GetMapping(value = "/auth/roles",produces = MediaType.APPLICATION_JSON_VALUE)
     public UserRolesoDTO getRoles() throws Exception {
         UserRolesoDTO oDto = new UserRolesoDTO();
