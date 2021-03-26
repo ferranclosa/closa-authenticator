@@ -52,7 +52,7 @@ public class AuthController {
         } catch (AppException e){
             oDto.setReturnCode(e.getMessageCode().getrCode());
             oDto.setReturnLabel(e.getMessageText());
-            oDto.setReturnMessages(e.getMultiExceptions());
+            oDto.setReturnMessages(Arrays.asList(ExceptionUtils.getRootCauseStackTrace(e)));
             eventService.insertEvent(iDto.getUserName(),EventsHandled.USER_DETAILS_DENIED);
         }
         catch (Exception e) {
@@ -84,12 +84,12 @@ public class AuthController {
         } catch (AppException e ){
             oDto.setReturnCode(e.getMessageCode().getrCode());
             oDto.setReturnLabel(e.getMessageText());
-            eventService.insertEvent(authenticationRequest.getUsername(), EventsHandled.LOGIN_FAILED, oDto.toJson());
+            eventService.insertEvent(authenticationRequest.getUsername(), EventsHandled.LOGIN_FAILED);
         } catch (Exception e) {
             oDto.setReturnCode(MessageCode.APP0099.getrCode());
             oDto.setReturnLabel(MessageCode.APP0099.getmMsg());
             oDto.setReturnMessages(Arrays.asList(ExceptionUtils.getRootCauseStackTrace(e)));
-            eventService.insertEvent(authenticationRequest.getUsername(), EventsHandled.LOGIN_FAILED, oDto.toJson());
+            eventService.insertEvent(authenticationRequest.getUsername(), EventsHandled.LOGIN_FAILED);
         }
             return oDto;
     }
