@@ -15,12 +15,15 @@ import java.util.Optional;
 @Component
 public class EventService {
 
+    //@Value("${global.trace.local")
     @Value("#{new Boolean('${global.trace.local}')}")
     private boolean traceLocal;
 
+    //@Value("${global.trace.statistics")
     @Value("#{new Boolean('${global.trace.statistics}')}")
     private boolean traceStatistic;
 
+    //@Value("${global.trace.audit")
     @Value("#{new Boolean('${global.trace.audit}')}")
     private boolean traceAudit;
 
