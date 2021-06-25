@@ -61,6 +61,7 @@ public class User  implements EntityCommon {
         this.password = connection.getConnectionUserCredentials().getCredentialsPassword();
         this.userStatus = connection.getConnectionStatus();
         this.usrRoles = connection.getConnectionUser().getUserRoles();
+
         this.passwordExpiresOn = connection.getConnectionUserCredentials().getExpiresWhen();
         this.setBlocked();
         this.setEnabled();
@@ -122,7 +123,7 @@ public class User  implements EntityCommon {
 
     public void setAuthorities() {
         for (UserRole one : this.getUsrRoles()) {
-            this.authorities.add(one.getRoleCodeNumber());
+            this.authorities.add(one.getRoleCodeLevel());
         }
     }
 

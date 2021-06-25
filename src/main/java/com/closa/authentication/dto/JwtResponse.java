@@ -2,14 +2,17 @@ package com.closa.authentication.dto;
 
 import com.closa.global.dto.GlobaloDTO;
 import com.closa.global.model.EntityCommon;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class JwtResponse extends GlobaloDTO {
 
     private  String jwttoken;
+
     private List<String > levels = new ArrayList<>();
 
     public JwtResponse() {

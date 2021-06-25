@@ -1,16 +1,14 @@
 package com.closa.global.functions;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.CompressionCodec;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
+import com.closa.global.security.model.SecurityConstants;
+import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Encoder;
+import io.jsonwebtoken.io.Serializer;
+import io.jsonwebtoken.security.InvalidKeyException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
-import javax.print.DocFlavor;
-import java.io.Serializable;
+import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +16,11 @@ import java.util.function.Function;
 
 @Component
 public class JwtUtils {
-
-    private String secret = "averylongstringplentyofnonsensewithmoresenselessauthorisationtocome";
-
-    public static final long JWT_TOKEN_VALIDITY = 5*60*60;
+    
+    public static final long JWT_TOKEN_VALIDITY = SecurityConstants.EXPIRATION_TIME;
 
     private Boolean isTokenExpired(String token){
+
         return extractExpiration(token).before(new Date());
     }
     public Date  extractExpiration(String token){
@@ -38,21 +35,24 @@ public class JwtUtils {
         return claimsResolver.apply(claims);
     }
     private Claims extractAllClaims(String token){
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parser()
+                .setSigningKey(SecurityConstants.SECRET)
+                .parseClaimsJws(token).getBody();
     }
 
     private String createToken(Map<String, Object> claims, String subject){
         return Jwts.builder().setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.ES256, secret)
+                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME * 10))
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
                 .compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails){
         final String userName = extractUserName(token);
-        return userName.equals(userDetails.getUsername()) && !isTokenExpired(token);
+        return userName.equals(userDetails.getUsername())
+                && !isTokenExpired(token);
     }
 
 
@@ -75,7 +75,13 @@ public class JwtUtils {
         }
 
         private Claims getAllClaimsFromToken(String token) {
-            return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+
+
+            return Jwts
+                    .parser()
+                    .setSigningKey(SecurityConstants.SECRET)
+                    .parseClaimsJws(token)
+                    .getBody();
         }
 
 
@@ -91,8 +97,14 @@ public class JwtUtils {
 
         private String doGenerateToken(Map<String, Object> claims, String subject) {
 
-            return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY*1000)).signWith(SignatureAlgorithm.HS512, secret).compact();
+            return Jwts.builder()
+                    .setClaims(claims)
+                    .setSubject(subject)
+                    .setIssuedAt(new Date(System.currentTimeMillis()))
+                    .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
+                    .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
+
+                    .compact();
         }
 
         public Boolean canTokenBeRefreshed(String token) {

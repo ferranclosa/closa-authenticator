@@ -1,6 +1,7 @@
 package com.closa.global.security.config;
 
 import com.closa.global.functions.JwtUtils;
+import com.closa.global.security.model.SecurityConstants;
 import com.closa.global.security.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -27,10 +28,10 @@ public class JwtFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        String authorizationHeader = httpServletRequest.getHeader("Authorization");
+        String authorizationHeader = httpServletRequest.getHeader(SecurityConstants.HEADER_STRING);
         String token = null;
         String usrName = null;
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ") ){
+        if (authorizationHeader != null && authorizationHeader.startsWith(SecurityConstants.TOKEN_PREFIX) ){
             token = authorizationHeader.substring(7);
             usrName = jwtUtil.extractUserName(token);
         }

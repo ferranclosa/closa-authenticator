@@ -87,7 +87,7 @@ public class UserDetailsoDTO extends GlobaloDTO {
 
     public void setAuthorities() {
         for (UserRole one : user.getUsrRoles()) {
-            this.authorities.add(one.getRoleCodeNumber());
+            this.authorities.add(one.getRoleCodeLevel());
         }
 
     }

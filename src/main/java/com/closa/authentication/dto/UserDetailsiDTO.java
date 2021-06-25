@@ -12,7 +12,7 @@ public class UserDetailsiDTO implements EntityCommon {
     @NotNull
     @NotEmpty
     @NotBlank
-    @Length(min = 8, message = "This is a Test for minimuum length")
+    @Length(min = 8, message = "This is a Test for minimum length")
     private String userName;
 
     public UserDetailsiDTO() {

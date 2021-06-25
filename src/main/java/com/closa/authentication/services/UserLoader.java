@@ -47,56 +47,56 @@ public class UserLoader implements CommandLineRunner {
 
         userRole = new UserRole();
         userRole.setRoleCode("SYSADMIN");
-        userRole.setRoleCodeNumber("90");
+        userRole.setRoleCodeLevel("90");
         userRole.setRoleDescription("TOP ACCESS");
         userRole.setRoleStatus(statusHelper.setItemStatus(Status.ACTIVE));
         rolRepository.save(userRole);
 
         userRole = new UserRole();
         userRole.setRoleCode("SYSAUDIT");
-        userRole.setRoleCodeNumber("80");
+        userRole.setRoleCodeLevel("80");
         userRole.setRoleDescription("TOP AUDIT ACCESS");
         userRole.setRoleStatus(statusHelper.setItemStatus(Status.ACTIVE));
         rolRepository.save(userRole);
 
         userRole = new UserRole();
         userRole.setRoleCode("APPADMIN");
-        userRole.setRoleCodeNumber("70");
+        userRole.setRoleCodeLevel("70");
         userRole.setRoleDescription("TOP APP ACCESS");
         userRole.setRoleStatus(statusHelper.setItemStatus(Status.ACTIVE));
         rolRepository.save(userRole);
 
         userRole = new UserRole();
         userRole.setRoleCode("APPCONTROLLER");
-        userRole.setRoleCodeNumber("60");
+        userRole.setRoleCodeLevel("60");
         userRole.setRoleDescription("APP CONTROLLER ACCESS");
         userRole.setRoleStatus(statusHelper.setItemStatus(Status.ACTIVE));
         rolRepository.save(userRole);
 
         userRole = new UserRole();
         userRole.setRoleCode("APPUSER");
-        userRole.setRoleCodeNumber("50");
+        userRole.setRoleCodeLevel("50");
         userRole.setRoleDescription("APP USER");
         userRole.setRoleStatus(statusHelper.setItemStatus(Status.ACTIVE));
         rolRepository.save(userRole);
 
         userRole = new UserRole();
         userRole.setRoleCode("APPEXTADMIN");
-        userRole.setRoleCodeNumber("40");
+        userRole.setRoleCodeLevel("40");
         userRole.setRoleDescription("APP EXTERNAL ADMIN ACCESS");
         userRole.setRoleStatus(statusHelper.setItemStatus(Status.ACTIVE));
         rolRepository.save(userRole);
 
         userRole = new UserRole();
         userRole.setRoleCode("APPEXTUSER");
-        userRole.setRoleCodeNumber("30");
+        userRole.setRoleCodeLevel("30");
         userRole.setRoleDescription("APP EXTERNAL USER ACCESS");
         userRole.setRoleStatus(statusHelper.setItemStatus(Status.ACTIVE));
         rolRepository.save(userRole);
 
         userRole = new UserRole();
         userRole.setRoleCode("APPBROWSER");
-        userRole.setRoleCodeNumber("20");
+        userRole.setRoleCodeLevel("20");
         userRole.setRoleDescription("APP BROWSER ACCESS");
         userRole.setRoleStatus(statusHelper.setItemStatus(Status.ACTIVE));
         rolRepository.save(userRole);

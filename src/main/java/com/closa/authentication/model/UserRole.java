@@ -20,8 +20,8 @@ public class UserRole {
     private String roleCode;
     @Column(length = 150, name = "role_description")
     private String roleDescription;
-    @Column(length = 2, nullable = false, name = "role_number")
-    private String roleCodeNumber;
+    @Column(length = 2, nullable = false, name = "role_level")
+    private String roleCodeLevel;
     @Embedded
     private ItemStatus roleStatus;
 
@@ -52,12 +52,12 @@ public class UserRole {
         this.roleDescription = roleDescription;
     }
 
-    public String getRoleCodeNumber() {
-        return roleCodeNumber;
+    public String getRoleCodeLevel() {
+        return roleCodeLevel;
     }
 
-    public void setRoleCodeNumber(String roleCodeNumber) {
-        this.roleCodeNumber = roleCodeNumber;
+    public void setRoleCodeLevel(String roleCodeLevel) {
+        this.roleCodeLevel = roleCodeLevel;
     }
 
     public ItemStatus getRoleStatus() {

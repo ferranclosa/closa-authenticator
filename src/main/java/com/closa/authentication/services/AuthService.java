@@ -10,18 +10,18 @@ import com.closa.global.throwables.AppException;
 import com.closa.global.throwables.MessageCode;
 import com.closa.global.throwables.exceptions.*;
 import com.closa.global.validators.Validators;
-import com.closa.global.validators.Validators;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -33,8 +33,10 @@ public class AuthService {
     @Autowired
     UConRepository uConRepository;
 
+/*
     @Autowired
     UserDetailsService userDetailsService;
+*/
 
     @Autowired
     URolRepository rolRepository;
@@ -96,7 +98,7 @@ public class AuthService {
             optionalUserConnection.get().setLastTimeConnected(LocalDateTime.now());
             uConRepository.save(optionalUserConnection.get());
             for (UserRole one : optionalUserConnection.get().getConnectionUser().getUserRoles()) {
-                oDto.getLevels().add(one.getRoleCodeNumber());
+                oDto.getLevels().add(one.getRoleCodeLevel());
             }
         }
         return oDto;
@@ -162,5 +164,19 @@ public class AuthService {
                 throw new UnexpectedEmptyResultException("Roles should exist. Check with the application Owner to Investigate");
             }
         return oDto;
+    }
+
+    public List<String> getLevels(String username, String password) {
+       List<String> levels = new ArrayList<>();
+        Optional<UserConnection> optionalUserConnection = uConRepository.findByConnectionId(username);
+        if (optionalUserConnection.isPresent()) {
+            optionalUserConnection.get().setConnected(true);
+            optionalUserConnection.get().setLastTimeConnected(LocalDateTime.now());
+            uConRepository.save(optionalUserConnection.get());
+            for (UserRole one : optionalUserConnection.get().getConnectionUser().getUserRoles()) {
+                levels.add(one.getRoleCodeLevel());
+            }
+        }
+        return levels;
     }
 }

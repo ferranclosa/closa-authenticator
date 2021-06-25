@@ -60,9 +60,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
@@ -70,6 +67,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth/authenticate").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/authenticate").permitAll()
+                .antMatchers(HttpMethod.POST, "/open/SMNU01/getAllFunctionGroups").permitAll()
+
                 .antMatchers(HttpMethod.POST, "/auth/register").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/signout").permitAll()
                 .antMatchers(HttpMethod.GET, "/auth/roles").permitAll()
