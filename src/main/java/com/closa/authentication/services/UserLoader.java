@@ -5,6 +5,7 @@ import com.closa.authentication.model.*;
 import com.closa.global.status.model.enums.Status;
 import com.closa.global.status.util.StatusHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,9 +36,14 @@ public class UserLoader implements CommandLineRunner {
     @Autowired
     PasswordEncoder passwordEncoder ;
 
+    @Value("#{new Boolean('${initiate-database}')}")
+    private boolean initiate;
+
 
     @Override
     public void run(String... args) throws Exception {
+
+        if (initiate) {
 
         UserRole userRole = null;
         UserConnection userConnection = null;
@@ -144,5 +150,7 @@ public class UserLoader implements CommandLineRunner {
         userConnection.setConnectionUserCredentials(userCredentials);
         userConnection.setConnectionStatus(statusHelper.setItemStatus(Status.ACTIVE));
         conRepository.save(userConnection);
+
+    }
     }
 }
