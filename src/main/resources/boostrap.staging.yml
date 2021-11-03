@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: authentication
+  cloud:
+    discovery:
+      service-id: authentication
+      enabled: true
+    config:
+      uri: https://closa-config.herokuapp.com:8071
+encrypt:
+  key: T81SMustBeLOn9F0rF0rY0uT09etB0redt01nf1n1t
