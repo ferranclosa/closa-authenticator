@@ -36,7 +36,7 @@ public class UserLoader implements CommandLineRunner {
     @Autowired
     PasswordEncoder passwordEncoder ;
 
-    @Value("#{new Boolean('${initiate-database}')}")
+    @Value("${initiate-database}")
     private boolean initiate;
 
 
